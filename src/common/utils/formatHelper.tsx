@@ -161,7 +161,7 @@ export function formatImage(url: string | undefined | null) {
   if (!url) return '';
   let location = window.location.host.replace('www.', '');
   if (location.includes('localhost') || location.includes('127.0.0.1')) {
-    return 'https://www.aid.com.co' + url;
+    return 'http://167.88.166.94:8000' + url;
   } else {
     return 'https://upload.' + location + url;
   }

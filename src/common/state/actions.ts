@@ -35,24 +35,7 @@ export const stateActions = {
     state.storage.giftCode = '';
   },
   me() {
-    return request('auth/autologin', {}).then((res) => {
-      // console.log('auth/login', res);
-      state.session.user = {
-        ...res.data,
-        nLoginTimeout: 0
-      };
-      return res.data;
-    }).catch((e) => {
-      if (e.code == 10000) {
-        if (location.pathname !== '/') location.href = '/';
-      } else {
-        state.session.user.nLoginTimeout += 1;
-        if (state.session.user.nLoginTimeout == 3) {
-          if (location.pathname !== '/') location.href = '/';
-        }
-      }
-      return Promise.reject(e);
-    });
+    
   },
   getMyPkInfo() {
     if (state.storage.isLogin && state.session.user) {
@@ -76,38 +59,20 @@ export const stateActions = {
 
     // 已登录，且是首页，就跳转到内页去
     if (state.storage.isLogin) {
-      if (location.pathname == '/') location.href = '/home/earn';
+      // if (location.pathname == '/') location.href = '/home/earn';
     }
   },
   loginFailed() {
     state.storage.isConnected = false;
-    if (location.pathname !== '/') location.href = '/';
+    // if (location.pathname !== '/') location.href = '/';
     state.session.ready = true;
   },
   loginSuccess() {
     state.session.ready = true;
     state.storage.isConnected = true;
     
-    if(location.pathname == '/resetPassword') {
-      this.subLoading();
-      return;
-    }
-    this.me();
-    this.getMyPkInfo();
-
     if (state.storage.isLogin) {
-      (async () => {
-        let res = await stateActions.me();
-        if (location.pathname == '/') {
-          if (!state.session?.user?.erc_address
-            && !state.session?.user?.trc_address
-            && !state.session?.user?.card_no)
-            location.href = '/home/settings/info';
-          else
-            location.href = '/home/guess';
-        }
-      })();
-
+      
     }
   },
   walletLoginFailed({ address, chain, connector }: any) {

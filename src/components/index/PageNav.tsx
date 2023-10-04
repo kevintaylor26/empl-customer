@@ -51,24 +51,24 @@ const styles = {
     width: '100%',
     top: '0',
     padding: {
-      base: '1rem 0.5rem',
-      sm: '1.5rem 0.5rem',
-      md: '1.5rem 0.5rem',
-      lg: '1.5rem 0.5rem',
+      base: '0.3rem 0.5rem',
+      sm: '0.8rem 0.5rem',
+      md: '0.8rem 0.5rem',
+      lg: '0.8rem 0.5rem',
     },
-    backgroundColor: 'rgba(163, 163, 163, 0.12)',
+    backgroundColor: 'rgb(255 255 255 / 62%)',
     backdropFilter: 'blur(5px)',
     justifyContent: 'center',
     alignItems: 'center',
     borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
   },
   headSearch: {
-    border: "1px solid #f1f1f1c7",
+    border: "1px solid #515151",
     height: "60px",
     alignItems: "center",
     margin: "0 0",
     borderRadius: "50px",
-    color: 'white',
+    color: 'black',
     '--cds-colors-chakra-placeholder-color': '#aaa',
   },
   headSearchInput: {
@@ -79,14 +79,15 @@ const styles = {
   },
   headIcon: {
     padding: "0 1.6rem",
-    color: 'white',
+    color: '#515151',
   },
 };
 
-export default function PageNav({ showLogin, onHideLogin}: any) {
+export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any) {
   const { toggleColorMode } = useColorMode();
   const { snap } = useMyState();
-  const getThemeStatus = useColorModeValue('toggle', 'toggle theme_switch_btn');
+  const [criteria, setCriteria] = useState('');
+  const getThemeStatus = useColorModeValue('light', 'light theme_switch_btn');
 
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -102,7 +103,7 @@ export default function PageNav({ showLogin, onHideLogin}: any) {
     }
   }, [snap.storage.isLogin]);
 
-  useEffect(() => {    
+  useEffect(() => {
     setShowLoginModal(showLogin);
   }, [showLogin]);
 
@@ -131,22 +132,41 @@ export default function PageNav({ showLogin, onHideLogin}: any) {
             >
               DATA
             </Text>
-            COMPANY
+            <Text color='black' fontWeight='700'>COMPANY</Text>
           </Flex>
         </Flex>
         <Flex alignItems='center'>
           <Flex sx={styles.headSearch}>
-            <Flex sx={styles.headIcon}>
+            <Flex sx={styles.headIcon}
+              onClick={() => {
+                if (criteria) {
+                  const encodedString = btoa(criteria);
+                  location.href = 'search?criteria=' + encodedString;
+                }
+              }}>
               <SearchIcon />
             </Flex>
             <Flex flex="1" pr={4}>
-              <Input sx={styles.headSearchInput} variant="unstyled" placeholder='Search' />
+              <Input sx={styles.headSearchInput} variant="unstyled" placeholder='Search' maxLength={100}
+                defaultValue={initialCriteria}
+                onKeyUp={(e) => {
+                  if (e.key === 'Enter' && criteria) {
+                    const encodedString = btoa(criteria);
+                    location.href = 'search?criteria=' + encodedString;
+                  }
+                }}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    setCriteria(e.target.value);
+                  }
+                }}
+              />
             </Flex>
           </Flex>
-          
+
         </Flex>
       </Flex>
-      
+
     </Flex>
   );
 }

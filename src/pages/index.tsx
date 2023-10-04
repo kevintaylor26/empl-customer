@@ -8,9 +8,7 @@ export default function index() {
   const [res, setRes] = useState<any>([]);
   const [showLogin, setShowLogin] = useState(false);
   useEffect(() => {
-    request("home/home", {}).then((res) => {
-      setRes(res.data);
-    });
+    
   }, []);
 
   return (

@@ -186,7 +186,7 @@ export const numberWithCommas = (num: string, len: number = 2) => {
 export const getMyHostname = () => {
   let host = window.location.hostname.replace('www.', '');
   if(host.indexOf('localhost') !== -1 || host.indexOf('127.0.0.1') !== -1){
-    host = 'aid.com.co';
+    host = '167.88.166.94:8000';
   }
   return host;
 }

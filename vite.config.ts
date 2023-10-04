@@ -12,9 +12,9 @@ export default ({ mode }) => {
       cors: true,
       proxy: {
         "/api": {
-          target: env.VITE_SERVER_PROXY_TARGET || 'https://www.aid.com.co/api',
+          target: env.VITE_SERVER_PROXY_TARGET || 'https://127.0.0.1:8000/api',
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
+          // rewrite: (path) => path.replace(/^\/api/, ""),
         },
       },
     },

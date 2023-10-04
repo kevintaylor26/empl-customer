@@ -324,12 +324,6 @@ export default ({ user, account, onSidebarChange }: any) => {
       <AiTradeSwiper user={user} onModalClose={onClose} isModalOpen={isOpen} />
       <BroadcastMsgModal messages={getBroadcastMsgs} />
       <MyRefer />
-      <MyRedEnvelope />
-      <PkLotteryAcceptModal
-        onCloseModal={() => {
-
-        }}
-      />
     </Flex>
   );
 };

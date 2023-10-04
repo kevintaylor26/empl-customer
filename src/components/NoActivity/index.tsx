@@ -12,8 +12,8 @@ export default ({
         <Flex textAlign="center" flexDir="column" w="full" py={5}>
           {svgshow ? (
             <Image
-              src="/img/noactivity.svg"
-              w="100px"
+              src="/img/noactivity.jpg"
+              w="30vw"
               sx={{ margin: "0 auto" }}
             />
           ) : (
@@ -26,8 +26,8 @@ export default ({
       ) : (
         <Flex textAlign="center" w="full" flexDir="column" py={5}>
           <Image
-            src="/img/noactivity.svg"
-            w="100px"
+            src="/img/noactivity.jpg"
+            w="30vw"
             sx={{ margin: "0 auto" }}
           />
           <Text fontSize="1.1rem" w="full" color="#555" pt={4}>

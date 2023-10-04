@@ -423,8 +423,7 @@ export default ({ showSidebar = false, user }: any) => {
                 </li>
               );
             })}
-          </Stack>
-          <MenuGift />
+          </Stack>          
         </Box>
         <Box></Box>
       </Flex>

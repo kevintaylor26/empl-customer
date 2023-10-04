@@ -3,8 +3,7 @@ import { state, stateActions } from '../../state';
 
 export const request = axios.create({
   method: 'POST',
-  baseURL: import.meta.env.VITE_REQUEST_BASE_URL || '/api/customer',
-  // baseURL: 'https://aid.com.co/api/customer',
+  baseURL: import.meta.env.VITE_REQUEST_BASE_URL || '/api',
   timeout: 60000,
   headers: { 'Content-Type': 'application/json' },
 });

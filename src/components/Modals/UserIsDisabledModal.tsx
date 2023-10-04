@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import disabledImage from '../../assets/images/account-disabled.svg';
+
 import { state, stateActions } from '../../common';
 
 export default ({status}: any) => {
@@ -26,7 +26,7 @@ export default ({status}: any) => {
         ch: (
           <ModalBody sx={{ margin: 0, }}>
             <Flex justifyContent="center" alignItems="center" height="300px">
-              <Image src={disabledImage} style={{ visibility: 'visible' }}/>
+              <Image src='img/account-disabled.jpg' style={{ visibility: 'visible' }}/>
             </Flex>
             <Flex justifyContent="center" alignItems="center" marginTop={'15px'}>
               <Text

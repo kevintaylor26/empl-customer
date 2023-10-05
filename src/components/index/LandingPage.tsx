@@ -65,25 +65,7 @@ export default () => {
   });
 
   const [needToTimeout, setNeedTimeout] = useState(false);
-  useEffect(() => {
-    if (needToTimeout) {
-      setTimeout(() => {
-        if(!marketingData.criteria) return;
-        request('marketings/search', {
-          data: {
-            criteria: marketingData.criteria
-          }
-        })
-          .then((res: any) => {
-            
-          })
-          .catch((ex) => {
-
-          })
-        setNeedTimeout(false);
-      }, 1000);
-    }
-  }, [needToTimeout])
+  
   useEffect(() => {
     request('marketings/topRates', {})
       .then((res: any) => {

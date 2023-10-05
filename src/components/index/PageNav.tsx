@@ -1,8 +1,10 @@
 import {
+  Button,
   Flex,
   Image,
   Input,
   Text,
+  Avatar,
   useColorMode,
   useColorModeValue,
 } from '@chakra-ui/react';
@@ -19,6 +21,7 @@ import SignUp from '@components/Authentication/SignUp';
 import ForgotPassword from '@components/Authentication/ForgotPassword';
 import SocialLogin from '@components/Authentication/SocialLogin';
 import { SearchIcon, SmallCloseIcon } from '@chakra-ui/icons';
+import HeaderAvatar from '@components/layout/HeaderAvatar';
 
 const styles = {
   lab: {
@@ -83,7 +86,7 @@ const styles = {
   },
 };
 
-export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any) {
+export default function PageNav({ showLogin, onHideLogin, initialCriteria, onSearchChange }: any) {
   const { toggleColorMode } = useColorMode();
   const { snap } = useMyState();
   const [criteria, setCriteria] = useState('');
@@ -94,6 +97,7 @@ export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [showSocialModal, setShowSocialModal] = useState(false);
 
+
   useEffect(() => {
     // console.log('useEffect', address, connector, chain, snap.storage.isLogin);
     if (!snap.storage.token) {
@@ -102,6 +106,10 @@ export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any
       stateActions.loginSuccess();
     }
   }, [snap.storage.isLogin]);
+
+  useEffect(() => {
+    
+  }, [snap.session.user]);
 
   useEffect(() => {
     setShowLoginModal(showLogin);
@@ -135,13 +143,17 @@ export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any
             <Text color='black' fontWeight='700'>COMPANY</Text>
           </Flex>
         </Flex>
-        <Flex alignItems='center'>
+        <Flex alignItems='center' justifyContent={'end'}>
           <Flex sx={styles.headSearch}>
             <Flex sx={styles.headIcon}
               onClick={() => {
                 if (criteria) {
-                  const encodedString = btoa(criteria);
-                  location.href = 'search?criteria=' + encodedString;
+                  if (onSearchChange) {
+                    onSearchChange(criteria);
+                  } else {
+                    const encodedString = btoa(criteria);
+                    location.href = 'search?criteria=' + encodedString;
+                  }
                 }
               }}>
               <SearchIcon />
@@ -149,24 +161,84 @@ export default function PageNav({ showLogin, onHideLogin, initialCriteria }: any
             <Flex flex="1" pr={4}>
               <Input sx={styles.headSearchInput} variant="unstyled" placeholder='Search' maxLength={100}
                 defaultValue={initialCriteria}
-                onKeyUp={(e) => {
-                  if (e.key === 'Enter' && criteria) {
-                    const encodedString = btoa(criteria);
-                    location.href = 'search?criteria=' + encodedString;
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && e.currentTarget.value) {
+                    if (onSearchChange) {
+                      onSearchChange(e.currentTarget.value);
+                    } else {
+                      const encodedString = btoa(e.currentTarget.value);
+                      location.href = 'search?criteria=' + encodedString;
+                    }
                   }
                 }}
                 onChange={(e) => {
-                  if (e.target.value) {
-                    setCriteria(e.target.value);
+                  if (e.currentTarget.value) {
+                    setCriteria(e.currentTarget.value);
                   }
                 }}
               />
             </Flex>
           </Flex>
+          <Flex ml={'15px'}>
+            {
+              !snap.session.user ? (
+                <PrimaryButton padding={'25px 30px'}
+                  onClick={() => {
+                    stateActions.setIsLogin(true);
+                    setShowLoginModal(true);
+                  }}>
+                  Sign In
+                </PrimaryButton>
+              ) : (
+                <HeaderAvatar account={snap.storage} user={snap.session.user} />
+              )
+            }
 
+          </Flex>
         </Flex>
-      </Flex>
 
+
+      </Flex>
+      <SignIn
+        isOpenModal={showLoginModal}
+        onCloseModal={() => {
+          setShowLoginModal(false);
+          onHideLogin();
+        }}
+        onGotoSignUp={() => {
+          setShowLoginModal(false);
+          onHideLogin();
+          setShowSignUpModal(true);
+        }}
+        onGotoForgotPassword={() => {
+          setShowLoginModal(false);
+          onHideLogin();
+          setShowForgotModal(true);
+          setShowSignUpModal(false);
+        }}
+      />
+      <SignUp
+        isOpenModal={showSignUpModal}
+        onCloseModal={() => {
+          setShowSignUpModal(false);
+        }}
+        onGotoSignIn={() => {
+          setShowLoginModal(true);
+          setShowSignUpModal(false);
+          setShowForgotModal(false);
+        }}
+      />
+      <ForgotPassword
+        isOpenModal={showForgotModal}
+        onCloseModal={() => {
+          setShowForgotModal(false);
+        }}
+        onGotoSignIn={() => {
+          setShowLoginModal(true);
+          setShowSignUpModal(false);
+          setShowForgotModal(false);
+        }}
+      />
     </Flex>
   );
 }

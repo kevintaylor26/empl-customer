@@ -285,16 +285,13 @@ export default ({ user, account, onSidebarChange }: any) => {
               colorScheme='primary'
               onClick={() => {
                 if (user?.first_show_card_at || user?.trailed_at) {
-                  navigate('/home/aitrade');
+                  navigate('/');
                 } else {
                   onOpen();
                 }
               }}
             >
-              <FormattedMessage
-                id='text.AiTrade'
-                values={{ name: 'AI Earn' }}
-              />
+              Data Company
             </PrimaryButton>
           </Flex>
           <MyIconButton link='/home/notifications'>

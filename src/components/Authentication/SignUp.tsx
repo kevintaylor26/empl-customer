@@ -132,10 +132,6 @@ export default ({ isOpenModal, onCloseModal, onGotoSignIn }: any) => {
                     showError({ description: intl.formatMessage({ id: 'text.password_not_confirm' }) });
                     return;
                   }
-                  if (!validateString(values.username)){
-                    showError({ description: intl.formatMessage({ id: 'text.invalid_signup_username' }) });
-                    return;
-                  }
                   request('auth/signup', {
                     data: {
                       ...values,
@@ -160,25 +156,25 @@ export default ({ isOpenModal, onCloseModal, onGotoSignIn }: any) => {
               >
                 {(props: any) => (
                   <Form>
-                    <Field name='username'>
+                    
+                    <Field name='email'>
                       {({ field, form }: any) => (
                         <FormControl
                           isRequired
-                          isInvalid={form.errors.name && form.touched.name}
+                          isInvalid={form.errors.email && form.touched.email}
                         >
                           <InputGroup
                             mt={4}>
                             <InputLeftElement pointerEvents="none" children={<Avatar width='20px' height="20px" bg='gray.500' />} pt='6px' fontSize='1.2em' />
                             <Input
                               {...field}
-                              type="text"
-                              value={props.values.username}
-                              placeholder={intl.formatMessage({ id: 'modal.auth.userId' })}
+                              type="email"
+                              placeholder={'Email'}
                               size='lg' />
                           </InputGroup>
 
                           <FormErrorMessage>
-                            {form.errors.name}
+                            {form.errors.email}
                           </FormErrorMessage>
                         </FormControl>
                       )}

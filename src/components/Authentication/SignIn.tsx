@@ -1,4 +1,4 @@
-import EmailImg from "@/assets/images/coinbase-icon.svg";
+
 import {
   Flex,
   FormControl,
@@ -58,7 +58,12 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
           {
             <Flex flexDir="column">
               <Flex w="full" justifyContent="center" py={5} pb={10} mt={6}>
-                <Image w="80px" src={EmailImg} />
+                <Avatar
+                  w='150px'
+                  h='150px'
+                   src={'img/1.png'}>
+
+                </Avatar>
               </Flex>
               <Text
                 px={1}
@@ -70,7 +75,7 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
                   textAlign: "center",
                 }}
               >
-                <FormattedMessage id="modal.auth.loginToYourAccount" />
+                Sign In to your account
               </Text>
 
               <Formik
@@ -79,7 +84,7 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
                   password: '',
                 }}
                 onSubmit={(values: any, actions: { setSubmitting: (arg0: boolean) => void; }) => {
-                  request('auth/login', { data: values })
+                  request('auth/signin', { data: values })
                     .then((res) => {
                       state.session.user = res.data.user;
                       state.session.ready = true;
@@ -89,12 +94,7 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
                       state.storage.isConnected = true;
                       stateActions.setIsLogin(true);
                       stateActions.setToken(res.data.token);
-                      if (!res?.data?.user?.erc_address
-                        && !res?.data?.user?.trc_address
-                        && !res?.data?.user?.card_no)
-                        location.href = '/home/guess';
-                      else
-                        location.href = '/home/guess';
+                      location.reload();
                     })
                     .catch(showRes)
                     .finally(() => {
@@ -104,24 +104,24 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
               >
                 {(props: any) => (
                   <Form>
-                    <Field name='username'>
+                    <Field name='email'>
                       {({ field, form }: any) => (
                         <FormControl
                           isRequired
-                          isInvalid={form.errors.name && form.touched.name}
+                          isInvalid={form.errors.email && form.touched.email}
                         >
                           <InputGroup
                             mt={4}>
                             <InputLeftElement pointerEvents="none" children={<Avatar width='20px' height="20px" bg='gray.500' />} pt='6px' fontSize='1.2em' />
                             <Input
                               {...field}
-                              type="text"
-                              placeholder={intl.formatMessage({ id: 'modal.auth.userId' })}
+                              type="email"
+                              placeholder={'Email'}
                               size='lg' />
                           </InputGroup>
 
                           <FormErrorMessage>
-                            {form.errors.name}
+                            {form.errors.email}
                           </FormErrorMessage>
                         </FormControl>
                       )}
@@ -152,7 +152,7 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
                     <Flex
                       w='full'
                       flexDir={{ base: 'column', sm: 'column', md: 'row', lg: 'row' }}>
-                      <Text
+                      {/* <Text
                         px={1}
                         py={3}
                         sx={{
@@ -167,7 +167,7 @@ export default ({ isOpenModal, onCloseModal, onGotoForgotPassword, onGotoSignUp 
                         }}>
                           <FormattedMessage id="modal.auth.forgotPassword" />
                         </Link>
-                      </Text>
+                      </Text> */}
                       <Text
                         px={1}
                         py={3}

@@ -99,22 +99,11 @@ export default function HeaderAvatar({ user }: any) {
               mt={{ base: 10, sm: 10, md: 5, lg: 5 }}
             >
               <Avatar
-                name={user?.nickname ?? "-"}
+                name={user?.email ?? "-"}
                 onClick={onOpen}
                 size="lg"
                 src={getAvatar(user?.avatar)}
               />
-              <Flex sx={styles.Uvip}>
-                <Tag
-                  variant="solid"
-                  borderRadius="full"
-                  py="0px"
-                  px="0.6rem"
-                  colorScheme="twitter"
-                >
-                  {formatVip(user?.vips_id)}
-                </Tag>
-              </Flex>
             </Flex>
             <Flex justifyContent="center" pt={8} w="full" flexDir="column">
               <Text
@@ -123,61 +112,14 @@ export default function HeaderAvatar({ user }: any) {
                 textAlign="center"
                 fontWeight="var(--cds-fontWeights-medium)"
               >
-                {user?.username ?? "-"}
-              </Text>
-              <Text
-                color="#858585"
-                fontSize="0.8rem"
-                w="100%"
-                pt={2}
-                textAlign="center"
-              >
                 {user?.email ?? "-"}
               </Text>
+              
             </Flex>
-            <Flex justifyContent="center" py={5}>
-              <Link to="/home/settings/info" onClick={onClose}>
-                <MyButton
-                  fontWeight="var(--cds-fontWeights-medium)"
-                  borderRadius="full"
-                >
-                  <FormattedMessage id="text.ManageYourProfile" />
-                </MyButton>
-              </Link>
-            </Flex>
+           
 
             <SimpleGrid columns={1}>
-              <Flex sx={styles.UCell}>
-                <Link
-                  to="/home/settings/email"
-                  onClick={onClose}
-                  style={styles.UCellA}
-                >
-                  <FormattedMessage id="text.Settings" />
-                </Link>
-              </Flex>
-              <Flex sx={styles.UCell}>
-                <Flex style={styles.UCellA} alignItems="center">
-                  <Flex flex="1">
-                    <FormattedMessage id="text.DarkMode" />
-                  </Flex>
-                  <Switch
-                    defaultChecked={colorMode === "dark"}
-                    onChange={() => toggleColorMode()}
-                  />
-                </Flex>
-              </Flex>
-              {/* <Flex sx={styles.UCell}>
-                <Flex sx={styles.UCellA} flexDir="column">
-                  <Text
-                    fontWeight="var(--cds-fontWeights-medium)"
-                    fontSize="1.1rem"
-                    lineHeight="1rem"
-                  >
-                    {formatAddress(user?.address)}
-                  </Text>
-                </Flex>
-              </Flex> */}
+              
               <Flex sx={styles.UCell}>
                 <Link to="#" style={styles.UCellA}>
                   <Text

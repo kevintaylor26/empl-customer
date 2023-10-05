@@ -35,7 +35,24 @@ export const stateActions = {
     state.storage.giftCode = '';
   },
   me() {
-    
+    return request('auth/autologin', {}).then((res) => {
+      // console.log('auth/login', res);
+      state.session.user = {
+        ...res.data,
+        nLoginTimeout: 0
+      };
+      return res.data;
+    }).catch((e) => {
+      if (e.code == 10000) {
+        if (location.pathname !== '/') location.href = '/';
+      } else {
+        state.session.user.nLoginTimeout += 1;
+        if (state.session.user.nLoginTimeout == 3) {
+          if (location.pathname !== '/') location.href = '/';
+        }
+      }
+      return Promise.reject(e);
+    });
   },
   getMyPkInfo() {
     if (state.storage.isLogin && state.session.user) {
@@ -72,7 +89,9 @@ export const stateActions = {
     state.storage.isConnected = true;
     
     if (state.storage.isLogin) {
-      
+      (async () => {
+        let res = await stateActions.me();
+      })();
     }
   },
   walletLoginFailed({ address, chain, connector }: any) {
@@ -92,7 +111,7 @@ export const stateActions = {
   },
   walletLogout() {
     console.log('walletLogout');
-
+    state.session.user = null;
     state.storage.chain = '';
     state.storage.connector = '';
     state.storage.isConnected = false;
